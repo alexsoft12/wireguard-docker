@@ -1,0 +1,8 @@
+# Change email, domain, and port as needed
+{
+  email vpn@example.com
+}
+
+vpn.example.com {
+  reverse_proxy wg-easy:51822
+}

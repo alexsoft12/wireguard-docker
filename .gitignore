@@ -1,0 +1,15 @@
+# Environment
+.env
+Caddyfile
+
+# WireGuard config volume or backups
+*.tgz
+data/
+
+# Caddy data and config
+caddy_data/
+caddy_config/
+
+# System files
+.DS_Store
+/.idea

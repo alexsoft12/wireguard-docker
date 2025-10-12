@@ -1,0 +1,65 @@
+services:
+    caddy:
+        image: caddy:2.8
+        container_name: caddy
+        restart: unless-stopped
+        depends_on:
+            - wg-easy
+        environment:
+            DOMAIN: ${WG_HOST}
+            EMAIL: ${CADDY_EMAIL}
+            WG_UI_PORT: ${WG_UI_PORT}
+        ports:
+            - "80:80"     # HTTP (Let's Encrypt challenge)
+            - "443:443"   # HTTPS
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+            - ./caddy_data:/data
+            - ./caddy_config:/config
+        networks:
+            - wgnet
+
+    wg-easy:
+        image: ghcr.io/wg-easy/wg-easy:15.1
+        container_name: wg-easy
+        restart: unless-stopped
+
+        environment:
+            - INIT_ENABLED=true
+            - INIT_USERNAME=${WG_UI_USERNAME}
+            - INIT_PASSWORD=${WG_UI_PASSWORD}
+            - INIT_HOST=${WG_HOST}
+            - INIT_PORT=${WG_PORT:-51820}
+            - INIT_DNS=${WG_DNS:-1.1.1.1,8.8.8.8}
+            - INIT_IPV4_CIDR=10.8.0.0/24
+            - INIT_IPV6_CIDR=2001:db8::/32
+
+            # ⚙️ Configuración opcional
+            - PORT=${WG_UI_PORT:-51821}
+            - HOST=0.0.0.0
+            - INSECURE=false
+            - DISABLE_IPV6=false
+
+        volumes:
+            - ${CONFIG_DIR}:/etc/wireguard
+            - /lib/modules:/lib/modules:ro
+
+        expose:
+            - "${WG_UI_PORT}"
+        ports:
+            - "${WG_PORT}:${WG_PORT}/udp"
+
+        cap_add:
+            - NET_ADMIN
+            - SYS_MODULE
+
+        sysctls:
+            - net.ipv4.ip_forward=1
+            - net.ipv4.conf.all.src_valid_mark=1
+
+        networks:
+            - wgnet
+
+networks:
+    wgnet:
+        driver: bridge
