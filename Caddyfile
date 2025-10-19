@@ -1,0 +1,8 @@
+# Change email, domain, and port as needed
+{
+  email {$CADDY_EMAIL}
+}
+
+{$WG_HOST} {
+  reverse_proxy 127.0.0.1:51821
+}

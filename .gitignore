@@ -1,6 +1,5 @@
 # Environment
 .env
-Caddyfile
 
 # WireGuard config volume or backups
 *.tgz
