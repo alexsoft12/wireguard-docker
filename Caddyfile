@@ -1,8 +1,22 @@
-# Change email, domain, and port as needed
 {
-  email {$CADDY_EMAIL}
+	email {$CADDY_EMAIL}
 }
 
+# WireGuard UI
 {$WG_HOST} {
-  reverse_proxy 127.0.0.1:51821
+	reverse_proxy localhost:51821
+}
+
+# Registry Docker Hub + UI
+{$HUB_HOST} {
+	basic_auth {
+		{$HUB_USER} {$HUB_PASSWORD_HASH}
+	}
+
+	reverse_proxy 127.0.0.1:8081
+
+	header {
+		Docker-Distribution-Api-Version: registry/2.0
+		X-Content-Type-Options: nosniff
+	}
 }

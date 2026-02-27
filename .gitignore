@@ -9,6 +9,9 @@ data/
 caddy_data/
 caddy_config/
 
+# Registry
+registry/
+
 # System files
 .DS_Store
 /.idea

@@ -24,16 +24,39 @@ services:
             - NET_ADMIN
             - SYS_MODULE
 
+    registry-ui:
+        image: joxit/docker-registry-ui:latest
+        container_name: registry-ui
+        restart: always
+        ports:
+            - "127.0.0.1:8081:80"  
+        environment:
+            - SINGLE_REGISTRY=true
+            - REGISTRY_TITLE=AlexSoft Hub
+            - DELETE_IMAGES=true
+            - NGINX_PROXY_PASS_URL=http://docker-registry:5000
+            - SHOW_CONTENT_DIGEST=true
+
+    docker-registry:
+        image: registry:3
+        container_name: docker-registry
+        restart: always
+        environment:
+            REGISTRY_STORAGE_DELETE_ENABLED: "true"
+        volumes:
+            - ./registry/data:/var/lib/registry
+    
     caddy:
         image: caddy:2.8
         container_name: caddy
-        network_mode: host          # Usa directamente la red del VPS
         restart: unless-stopped
-        depends_on:
-            - wg-easy
+        network_mode: host          # Usa directamente la red del VPS
         environment:
             - WG_HOST=${WG_HOST}
             - CADDY_EMAIL=${CADDY_EMAIL}
+            - HUB_HOST=${HUB_HOST}
+            - HUB_USER=${HUB_USER}
+            - HUB_PASSWORD_HASH=${HUB_PASSWORD_HASH}
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
             - ./caddy_data:/data
