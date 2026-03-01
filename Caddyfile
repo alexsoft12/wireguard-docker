@@ -20,3 +20,8 @@
 		X-Content-Type-Options: nosniff
 	}
 }
+
+# POS System
+{$POS_HOST} {
+  reverse_proxy {$POS_IP}:{$POS_PORT}
+}

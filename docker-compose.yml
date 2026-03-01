@@ -57,6 +57,9 @@ services:
             - HUB_HOST=${HUB_HOST}
             - HUB_USER=${HUB_USER}
             - HUB_PASSWORD_HASH=${HUB_PASSWORD_HASH}
+            - POS_HOST=${POS_HOST}
+            - POS_IP=${POS_IP}
+            - POS_PORT=${POS_PORT}
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
             - ./caddy_data:/data
