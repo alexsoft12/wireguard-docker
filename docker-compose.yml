@@ -60,6 +60,9 @@ services:
             - POS_HOST=${POS_HOST}
             - POS_IP=${POS_IP}
             - POS_PORT=${POS_PORT}
+            - OLLAMA_HOST=${OLLAMA_HOST}
+            - OLLAMA_IP=${OLLAMA_IP}
+            - OLLAMA_PORT=${OLLAMA_PORT}
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
             - ./caddy_data:/data
