@@ -37,13 +37,15 @@
 	 	X-Forwarded-Proto https
 	 }
 }
-
-# gmendel dspace
+# Frontend Angular + Proxy Inverso al Backend Tomcat (DSpace 7/8)
 {$DSPACE_GMENDEL_FRONT_HOST} {
-	reverse_proxy {$DSPACE_GMENDEL_FRONT_IP}:{$DSPACE_GMENDEL_FRONT_PORT}
-}
+	# Redirigir la API de DSpace (REST/HAL) al backend Tomcat
+	handle /server* {
+		reverse_proxy {$DSPACE_GMENDEL_BACK_IP}:{$DSPACE_GMENDEL_BACK_PORT}
+	}
 
-# Backend (REST API) de DSpace
-{$DSPACE_GMENDEL_BACK_HOST} {
-   reverse_proxy {$DSPACE_GMENDEL_BACK_IP}:{$DSPACE_GMENDEL_BACK_PORT}
+	# El resto del tráfico de la aplicación web va al SSR de Angular
+	handle {
+		reverse_proxy {$DSPACE_GMENDEL_FRONT_IP}:{$DSPACE_GMENDEL_FRONT_PORT}
+	}
 }
