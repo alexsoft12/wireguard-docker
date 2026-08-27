@@ -63,6 +63,12 @@ services:
             - OLLAMA_HOST=${OLLAMA_HOST}
             - OLLAMA_IP=${OLLAMA_IP}
             - OLLAMA_PORT=${OLLAMA_PORT}
+            - DSPACE_GMENDEL_FRONT_HOST=${DSPACE_GMENDEL_FRONT_HOST}
+            - DSPACE_GMENDEL_FRONT_IP=${DSPACE_GMENDEL_FRONT_IP}
+            - DSPACE_GMENDEL_FRONT_PORT=${DSPACE_GMENDEL_FRONT_PORT}
+            - DSPACE_GMENDEL_BACK_HOST=${DSPACE_GMENDEL_BACK_HOST}
+            - DSPACE_GMENDEL_BACK_IP=${DSPACE_GMENDEL_BACK_IP}
+            - DSPACE_GMENDEL_BACK_PORT=${DSPACE_GMENDEL_BACK_PORT}
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
             - ./caddy_data:/data

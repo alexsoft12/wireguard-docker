@@ -37,3 +37,13 @@
 	 	X-Forwarded-Proto https
 	 }
 }
+
+# gmendel dspace
+{$DSPACE_GMENDEL_FRONT_HOST} {
+	reverse_proxy {$DSPACE_GMENDEL_FRONT_IP}:{$DSPACE_GMENDEL_FRONT_PORT}
+}
+
+# Backend (REST API) de DSpace
+{$DSPACE_GMENDEL_BACK_HOST} {
+   reverse_proxy {$DSPACE_GMENDEL_BACK_IP}:{$DSPACE_GMENDEL_BACK_PORT}
+}
